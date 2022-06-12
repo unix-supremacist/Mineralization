@@ -52,7 +52,7 @@ public class MineralizationRegistry {
             //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_pickaxe"), new FeltPickaxeItem((ToolMaterial) mat, 1, -2.8f, new Item.Settings(), true));
             Item hammer = registerToolItem(modid, new FeltPickaxeItem((ToolMaterial) mat, 1, -2.8f, new Item.Settings(), true), "hammer", mat.getName());
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex == 1 ? mat.getColor() : -1, hammer);
-            hammers.add("hammer_"+mat.getName());
+            hammers.add(Mineralization.MODID+":"+"hammer_"+mat.getName());
             //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_hammer"), new FeltPickaxeItem((ToolMaterial) mat, 1, -2.8f, new Item.Settings(), true));
             //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_hoe"), new FeltHoeItem((ToolMaterial) mat, 0, -3.0f, new Item.Settings()));
         }
@@ -151,10 +151,12 @@ public class MineralizationRegistry {
 
     public static void registerTags(HashSet<String> hashset, String namespace){
         JTag jtag = new JTag();
-        for (String string : hashset){
-            jtag.add(new Identifier(Mineralization.MODID+":"+string));
-        }
-
+            for (String string : hashset){
+                if (string.startsWith("#"))
+                    jtag.tag(new Identifier(string.substring(1)));
+                else
+                    jtag.add(new Identifier(string));
+            }
         Mineralization.RESOURCE_PACK.addTag(new Identifier(namespace), jtag);
     }
 }
