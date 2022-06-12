@@ -15,8 +15,8 @@ public class OreGens {
     public static Predicate<BiomeSelectionContext> OVERWORLD = BiomeSelectors.foundInOverworld();
     public static Predicate<BiomeSelectionContext> NETHER = BiomeSelectors.foundInTheNether();
     public static Predicate<BiomeSelectionContext> END = BiomeSelectors.foundInTheEnd();
-    public static Predicate<BiomeSelectionContext> WARM = BiomeSelectors.tag(BiomeTags.SPAWNS_WARM_VARIANT_FROGS); //warm_ocean, desert, mangrove_swamp, #is_jungle, #is_savanna, #is_badlands, #is_nether
-    public static Predicate<BiomeSelectionContext> COLD = BiomeSelectors.tag(BiomeTags.SPAWNS_COLD_VARIANT_FROGS); //snowy_taiga, snowy_plains, ice_spikes, grove, frozen_peaks, jagged_peaks, snowy_slopes, frozen_ocean, deep_frozen_ocean, frozen_river, snowy_beach, deep_dark, #is_end
+    public static Predicate<BiomeSelectionContext> WARM = BiomeSelectors.categories(Biome.Category.DESERT).or(NETHER); //NOT ACCURATE FOR 1.18 warm_ocean, desert, mangrove_swamp, #is_jungle, #is_savanna, #is_badlands, #is_nether
+    public static Predicate<BiomeSelectionContext> COLD = BiomeSelectors.categories(Biome.Category.ICY).or(END); //NOT ACCURATE FOR 1.18 snowy_taiga, snowy_plains, ice_spikes, grove, frozen_peaks, jagged_peaks, snowy_slopes, frozen_ocean, deep_frozen_ocean, frozen_river, snowy_beach, deep_dark, #is_end
     public static Predicate<BiomeSelectionContext> MOUNTAIN = BiomeSelectors.tag(BiomeTags.IS_MOUNTAIN);//meadow, frozen_peaks, jagged_peaks, stony_peaks, snowy_slopes
     public static Predicate<BiomeSelectionContext> JUNGLE = BiomeSelectors.tag(BiomeTags.IS_JUNGLE);//bamboo_jungle, jungle, sparse_jungle
     public static Predicate<BiomeSelectionContext> MUSHROOM = BiomeSelectors.includeByKey(BiomeKeys.MUSHROOM_FIELDS);
