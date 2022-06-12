@@ -29,8 +29,8 @@ public class Materials {
          electrum = MineralizationRegistry.registerMaterial(new MaterialItem("electrum", 0xf3d248, true, false, 3), MODID);
          tin = MineralizationRegistry.registerMaterial(new MaterialItem("tin", 0xE0E0FF, true, true, 3), MODID);
          cassiterite = MineralizationRegistry.registerMaterial(new MaterialItem("cassiterite", 0xE0E0FF, true, true, 0), MODID);
-         bronze = MineralizationRegistry.registerMaterial(new MaterialItem("bronze", 0xc69114, true, true, 3), MODID);
-         steel = MineralizationRegistry.registerMaterial(new MaterialItem("steel", 0x424c55, true, false, 2), MODID);
+         bronze = MineralizationRegistry.registerMaterial(new MaterialTool("bronze", 0xc69114, 250, 2.0f, 2, 14, true, true, 3), MODID);
+         steel = MineralizationRegistry.registerMaterial(new MaterialTool("steel", 0x424c55, 500, 2.2f, 2, 10, true, false, 2), MODID);
          aluminium = MineralizationRegistry.registerMaterial(new MaterialItem("aluminium", 0xbad4ec, true, true, 3), MODID);
          bauxite = MineralizationRegistry.registerMaterial(new MaterialItem("bauxite", 0xbad4ec, true, true, 0), MODID);
          nikolite = MineralizationRegistry.registerMaterial(new MaterialItem("nikolite", 0x1273de, true, true, 0), MODID);

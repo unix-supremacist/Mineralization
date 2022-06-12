@@ -30,6 +30,7 @@ public class MineralizationRegistry {
     public static HashSet<StoneType> stoneTypes = new HashSet<>();
     public static HashSet<OreType> oreTypes = new HashSet<>();
     public static HashSet<Part> parts = new HashSet<>();
+    public static HashSet<String> hammers = new HashSet<>();
     public static HashMap<String, Item> items = new HashMap<>();
     public static MaterialItem registerMaterial(MaterialItem mat, String modid){
         for (Part part : parts){
@@ -37,15 +38,23 @@ public class MineralizationRegistry {
                 Item item = registerItem(modid, mat.getName(), part, Mineralization.MATERIAL_GROUP);
                 if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) ColorProviderRegistry.ITEM.register((stack, tintIndex) -> mat.getColor(), item);
                 items.put(part.name+"_"+mat.getName(), item);
+                if (part.name == "plate"){
+                    CustomIngredient ingot = new CustomIngredient("c:ingots/"+mat.getName(), "tag");
+                    registerCustomRecipe(modid, "hammering_"+mat.getName()+"_ingot", Mineralization.MODID+":advanced_recipe", modid+":"+part.name+"_"+mat.getName(), 1, new CustomIngredient(Mineralization.hammerTag, "tag"), ingot, ingot);
+                }
             }
         }
 
         if(mat instanceof ToolMaterial){
-            Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_sword"), new SwordItem((ToolMaterial) mat, 3, -2.4f, new Item.Settings()));
-            Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_shovel"), new ShovelItem((ToolMaterial) mat, 1, -3.0f, new Item.Settings()));
-            Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_axe"), new FeltAxeItem((ToolMaterial) mat, 6, -3.0f, new Item.Settings(), true));
-            Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_pickaxe"), new FeltPickaxeItem((ToolMaterial) mat, 1, -2.8f, new Item.Settings(), true));
-            Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_hoe"), new FeltHoeItem((ToolMaterial) mat, 0, -3.0f, new Item.Settings()));
+            //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_sword"), new SwordItem((ToolMaterial) mat, 3, -2.4f, new Item.Settings()));
+            //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_shovel"), new ShovelItem((ToolMaterial) mat, 1, -3.0f, new Item.Settings()));
+            //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_axe"), new FeltAxeItem((ToolMaterial) mat, 6, -3.0f, new Item.Settings(), true));
+            //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_pickaxe"), new FeltPickaxeItem((ToolMaterial) mat, 1, -2.8f, new Item.Settings(), true));
+            Item hammer = registerToolItem(modid, new FeltPickaxeItem((ToolMaterial) mat, 1, -2.8f, new Item.Settings(), true), "hammer", mat.getName());
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex == 1 ? mat.getColor() : -1, hammer);
+            hammers.add("hammer_"+mat.getName());
+            //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_hammer"), new FeltPickaxeItem((ToolMaterial) mat, 1, -2.8f, new Item.Settings(), true));
+            //Registry.register(Registry.ITEM, new Identifier(modid, mat.getName()+"_hoe"), new FeltHoeItem((ToolMaterial) mat, 0, -3.0f, new Item.Settings()));
         }
 
         if(mat instanceof ArmorMaterial) {
@@ -115,5 +124,37 @@ public class MineralizationRegistry {
         Mineralization.RESOURCE_PACK.addModel(JModel.model("item/generated").textures(new JTextures().layer0(part.textureLocation)), new Identifier(MODID, "item/"+part.name+"_"+material));
         Mineralization.RESOURCE_PACK.addTag(new Identifier("c:items/"+part.name+"s/"+material), new JTag().add(new Identifier(MODID, part.name+"_"+material)));
         return item;
+    }
+
+    public static Item registerToolItem(String MODID, Item item, String toolType, String toolMaterial){
+        Registry.register(Registry.ITEM, new Identifier(MODID, toolType+"_"+toolMaterial), item);
+        Mineralization.RESOURCE_PACK.addModel(JModel.model("item/generated").textures(new JTextures().layer0(Mineralization.MODID+":item/stick").layer1(Mineralization.MODID+":item/tool/"+toolType)), new Identifier(MODID, "item/"+toolType+"_"+toolMaterial));
+        Mineralization.RESOURCE_PACK.addTag(new Identifier("c:items/"+toolType+"s/"+toolMaterial), new JTag().add(new Identifier(MODID, toolType+"_"+toolMaterial)));
+        return item;
+    }
+
+    public static void registerCustomRecipe(String MODID, String recipeName, String recipeType, String result, int count, CustomIngredient... ingredients){
+        String recipe =
+                "{\n\"type\": \""+recipeType+"\",\n" +
+                "\"result\": {\n\"item\": \""+result+"\",\n\"count\": "+count+"\n},\n" +
+                "\"ingredients\": [\n";
+                for (int i = 0; i < ingredients.length; i++){
+                    CustomIngredient ingredient = ingredients[i];
+                    if (i + 1 < ingredients.length)
+                        recipe += "{\n\""+ingredient.ingredientType+"\": \""+ingredient.ingredient+"\"\n},\n";
+                    else
+                        recipe += "{\n\""+ingredient.ingredientType+"\": \""+ingredient.ingredient+"\"\n}\n";
+                }
+                recipe += "]\n}";
+        Mineralization.RESOURCE_PACK.addData(new Identifier(MODID, "recipes/"+recipeName+".json"), recipe.getBytes());
+    }
+
+    public static void registerTags(HashSet<String> hashset, String namespace){
+        JTag jtag = new JTag();
+        for (String string : hashset){
+            jtag.add(new Identifier(Mineralization.MODID+":"+string));
+        }
+
+        Mineralization.RESOURCE_PACK.addTag(new Identifier(namespace), jtag);
     }
 }
