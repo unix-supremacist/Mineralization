@@ -28,6 +28,8 @@ public class Mineralization implements ModInitializer {
 		Materials.registerMaterials(MODID);
 		OreGens.registerOreGens(MODID);
 		LOGGER.info("Hello Fabric world!");
+		MineralizationRegistry.registerTags(MineralizationRegistry.hammers, "modern_industrialization:items/forge_hammer_tools");
+		MineralizationRegistry.hammers.add("#modern_industrialization:forge_hammer_tools");
 		MineralizationRegistry.registerTags(MineralizationRegistry.hammers, "c:items/tools/hammer");
 		RRPCallback.BEFORE_VANILLA.register(a -> a.add(RESOURCE_PACK));
 		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MODID, "advanced_recipe"), AdvancedRecipeSerializer.INSTANCE);
