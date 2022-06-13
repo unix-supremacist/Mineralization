@@ -31,6 +31,8 @@ public class Mineralization implements ModInitializer {
 		MineralizationRegistry.registerTags(MineralizationRegistry.hammers, "modern_industrialization:items/forge_hammer_tools");
 		MineralizationRegistry.hammers.add("#modern_industrialization:forge_hammer_tools");
 		MineralizationRegistry.registerTags(MineralizationRegistry.hammers, "c:items/tools/hammer");
+		MineralizationRegistry.registerTags(MineralizationRegistry.pickaxeMineable, "minecraft:blocks/mineable/pickaxe");
+		MineralizationRegistry.registerTags(MineralizationRegistry.pickaxeMineable, "minecraft:blocks/needs_stone_tool");
 		RRPCallback.BEFORE_VANILLA.register(a -> a.add(RESOURCE_PACK));
 		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MODID, "advanced_recipe"), AdvancedRecipeSerializer.INSTANCE);
 	}
