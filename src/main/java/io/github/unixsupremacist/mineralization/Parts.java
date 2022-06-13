@@ -14,6 +14,7 @@ public class Parts {
         MineralizationRegistry.registerPart(new Part("gear", 2));
         //MineralizationRegistry.registerPart(new Part("raw_ore", 2));
         MineralizationRegistry.registerPart(new Part("plate", 2));
+        MineralizationRegistry.registerPart(new Part("raw_material", 0));
         //MineralizationRegistry.registerPart(new Part("nugget", 1));
         MineralizationRegistry.registerPart(new Part("ingot", 1));
         //.registerPart(new Part("tiny_dust", 0));

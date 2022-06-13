@@ -1,11 +1,14 @@
 package io.github.unixsupremacist.mineralization;
 
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import io.github.feltmc.feltapi.api.ore_feature.v1.OreFeatures;
 import io.github.feltmc.feltapi.api.tool.*;
 import net.devtech.arrp.json.blockstate.JBlockModel;
 import net.devtech.arrp.json.blockstate.JState;
 import net.devtech.arrp.json.blockstate.JVariant;
+import net.devtech.arrp.json.loot.*;
 import net.devtech.arrp.json.models.JModel;
 import net.devtech.arrp.json.models.JTextures;
 import net.devtech.arrp.json.tags.JTag;
@@ -32,6 +35,7 @@ public class MineralizationRegistry {
     public static HashSet<Part> parts = new HashSet<>();
     public static HashSet<String> hammers = new HashSet<>();
     public static HashMap<String, Item> items = new HashMap<>();
+    public static final HashSet<String> pickaxeMineable = new HashSet<>();
     public static MaterialItem registerMaterial(MaterialItem mat, String modid){
         for (Part part : parts){
             if (part.tier <= mat.getTier()){
@@ -81,6 +85,23 @@ public class MineralizationRegistry {
                     ColorProviderRegistry.ITEM.register((stack, tintIndex) -> mat.getColor(), item);
                     BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout());
                 }
+                pickaxeMineable.add(modid+":"+modelName);
+                JsonObject predicate = new JsonObject();
+                JsonArray enchantmentsArray = new JsonArray();
+                JsonObject enchantmentsObject = new JsonObject();
+                JsonObject silkLevel = new JsonObject();
+                predicate.add("enchantments", enchantmentsArray);
+                enchantmentsArray.add(enchantmentsObject);
+                enchantmentsObject.addProperty("enchantment", "minecraft:silk_touch");
+                enchantmentsObject.add("levels", silkLevel);
+                silkLevel.addProperty("min", 1);
+                Mineralization.RESOURCE_PACK.addLootTable(new Identifier(modid+":"+"blocks/"+modelName), JLootTable.loot("minecraft:block")
+                    .pool(new JPool().rolls(1)
+                    .entry(new JEntry().type("minecraft:alternatives")
+                    .child(new JEntry().type("minecraft:item").name(modid+":"+modelName).condition(new JCondition().condition("minecraft:match_tool").parameter("predicate", predicate)))
+                    .child(new JEntry().type("minecraft:item").name(modid+":raw_material_"+mat.getName()).condition("minecraft:survives_explosion").function(new JFunction("minecraft:apply_bonus").parameter("enchantment", "minecraft:fortune").parameter("formula", "minecraft:ore_drops")))
+                )));
+
                 getOreType(mat.getName()).oreBlocks.put(stoneType.name, block);
                 getOreType(mat.getName()).oreItems.put(stoneType.name, item);
             }
