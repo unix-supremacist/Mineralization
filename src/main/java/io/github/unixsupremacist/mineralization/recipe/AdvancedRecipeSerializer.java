@@ -1,4 +1,4 @@
-package io.github.unixsupremacist.mineralization;
+package io.github.unixsupremacist.mineralization.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.network.PacketByteBuf;

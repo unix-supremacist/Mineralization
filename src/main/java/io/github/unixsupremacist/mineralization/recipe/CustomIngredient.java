@@ -1,8 +1,8 @@
-package io.github.unixsupremacist.mineralization;
+package io.github.unixsupremacist.mineralization.recipe;
 
 public class CustomIngredient {
-    String ingredientType;
-    String ingredient;
+    public String ingredientType;
+    public String ingredient;
 
     public CustomIngredient(String ingredient, String ingredientType){
         this.ingredient = ingredient;

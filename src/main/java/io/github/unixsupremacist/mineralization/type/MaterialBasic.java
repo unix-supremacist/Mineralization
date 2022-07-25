@@ -1,19 +1,27 @@
-package io.github.unixsupremacist.mineralization;
+package io.github.unixsupremacist.mineralization.type;
 
-public class MaterialItem {
+import java.util.HashSet;
+import java.util.List;
+
+public class MaterialBasic {
     String name;
     int color;
     boolean metallic;
     boolean ore;
     int tier;
+    HashSet tags = new HashSet<>();
+    public Parts parts;
 
-    public MaterialItem(String name, int color, boolean metallic, boolean ore, int tier){
+    public MaterialBasic(String name, int color, boolean metallic, boolean ore, int tier, Parts parts, String... tags){
         this.name = name;
         this.color = color;
         this.metallic = metallic;
         this.ore = ore;
         this.tier = tier;
+        this.parts = parts;
+        this.tags.addAll(List.of(tags));
     }
+
     public String getName(){
         return name;
     }
@@ -32,5 +40,9 @@ public class MaterialItem {
 
     public int getTier(){
         return tier;
+    }
+
+    public HashSet getTags(){
+        return tags;
     }
 }

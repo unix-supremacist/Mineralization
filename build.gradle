@@ -48,6 +48,12 @@ dependencies {
 	//modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 	include modImplementation("net.devtech:arrp:0.5.7"){ exclude(group: "net.fabricmc.fabric-api") }
+	modApi "teamreborn:energy:2.+"
+	modImplementation "TechReborn:TechReborn-1.18:5.+"
+	include modImplementation("com.github.Draylar:magna:1.7.0-1.18"){
+		exclude(group: "net.fabricmc.fabric-api")
+		exclude(group: "com.terraformersmc")
+	}
 
 	//replace with a felt api later
 	//include modImplementation("com.github.Draylar:magna:${project.magna_version}"){

@@ -1,4 +1,4 @@
-package io.github.unixsupremacist.mineralization;
+package io.github.unixsupremacist.mineralization.recipe;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;

@@ -1,4 +1,4 @@
-package io.github.unixsupremacist.mineralization;
+package io.github.unixsupremacist.mineralization.type;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 

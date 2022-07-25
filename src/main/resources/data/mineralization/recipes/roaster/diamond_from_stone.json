@@ -1,0 +1,18 @@
+{
+  "type": "mineralization:roaster",
+  "power": 10,
+  "time": 300,
+  "ingredients": [
+    {
+      "item": "minecraft:stone"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond"
+    }
+  ]
+}
